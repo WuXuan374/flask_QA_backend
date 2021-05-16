@@ -18,8 +18,8 @@ class RetrievalTFIDF:
         # self.options = list(filter(lambda option: self.filter_options_by_answer_type(self.answer_types, option), options))
         self.options = options
         self.lang = lang
-        if self.lang == "zh" and os.path.isfile('./data/stopwords.txt'):
-            fp = open('./data/stopwords.txt', 'r', encoding='utf-8')
+        if self.lang == "zh" and os.path.isfile('./flaskr/data/stopwords.txt'):
+            fp = open('./flaskr/data/stopwords.txt', 'r', encoding='utf-8')
             self.stopwords = [line.strip('\n') for line in fp.readlines()]
         elif self.lang == "en":
             self.stopwords = stopwords.words("english")

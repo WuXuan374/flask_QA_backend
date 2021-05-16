@@ -4,8 +4,6 @@ from flask import Flask
 from flask_cors import CORS
 
 
-
-
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -32,8 +30,11 @@ def create_app(test_config=None):
     from . import db
     db.init_app(app)
 
-    from . import qa
+    from .apis import qa
     app.register_blueprint(qa.bp)
+
+    from .apis import model
+    app.register_blueprint(model.bp)
 
 
     return app
