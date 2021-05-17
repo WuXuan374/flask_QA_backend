@@ -58,15 +58,14 @@ def model_info():
 @bp.route('/create/', methods=['POST'])
 def model_create():
     db = get_db()
-    print(request.get_json())
     payload = request.get_json()
-    name = payload['name']
-    word_dimension = payload['word_dimension']
-    batch_size = payload['batch_size']
-    character_dimension = payload['character_dimension']
-    dropout_rate = payload['dropout_rate']
-    learning_rate = payload['learning_rate']
-    context_len = payload['context_len']
+    name = payload.get('name')
+    word_dimension = payload.get('word_dimension')
+    batch_size = payload.get('batch_size')
+    character_dimension = payload.get('character_dimension')
+    dropout_rate = payload.get('dropout_rate')
+    learning_rate = payload.get('learning_rate')
+    context_len = payload.get('context_len')
     error = None
 
     if not name:

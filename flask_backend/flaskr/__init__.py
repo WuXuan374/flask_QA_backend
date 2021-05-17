@@ -36,5 +36,8 @@ def create_app(test_config=None):
     from .apis import model
     app.register_blueprint(model.bp)
 
+    from .apis import  answer
+    app.register_blueprint(answer.bp)
+
 
     return app

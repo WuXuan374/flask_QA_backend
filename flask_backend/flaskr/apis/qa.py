@@ -9,6 +9,7 @@ from ..BiDAF.model import BiDAF_model
 from ..helper import get_args, run_with_model
 from ..Retrieval.run_QA import ReadDocumentContent
 from ..Retrieval.question_retrieval import QuestionRetrieval
+from ..db import get_db
 
 bp = Blueprint('qa', __name__, url_prefix='/qa')
 # 文件路径
@@ -94,6 +95,7 @@ def get_answers():
                 sorted_answers.append(current_answer[index])
         # 从多个文本中，每个文本收集三个答案，随后对收集到的所有答案再根据score进行排序
         sorted_answers = sorted(sorted_answers, key=lambda x: x["final_score"], reverse=True)[:3]
+
         return jsonify({'answers': sorted_answers})
 
 
