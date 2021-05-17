@@ -41,9 +41,14 @@ def model_evaluation():
 def model_info():
     db = get_db()
     model_name = request.args.get("model_name")
-    result = db.execute(
-        "SELECT * FROM model_info WHERE name LIKE :search", {"search":"%" + model_name + "%"}
-    ).fetchone()
+    if not model_name:
+        result = db.execute(
+            "SELECT * FROM model_info"
+        ).fetchall()
+    else:
+        result = db.execute(
+            "SELECT * FROM model_info WHERE name LIKE :search", {"search": "%" + model_name + "%"}
+        ).fetchone()
 
     if result is None:
         return make_response(jsonify({'error': 'Model info of {}  Not found'.format(model_name)}), 404)
