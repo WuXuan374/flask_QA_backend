@@ -54,3 +54,38 @@ def model_info():
         return make_response(jsonify({'error': 'Model info of {}  Not found'.format(model_name)}), 404)
 
     return json.dumps(marshal(result,info_fields))
+
+@bp.route('/create/', methods=['POST'])
+def model_create():
+    db = get_db()
+    print(request.get_json())
+    payload = request.get_json()
+    name = payload['name']
+    word_dimension = payload['word_dimension']
+    batch_size = payload['batch_size']
+    character_dimension = payload['character_dimension']
+    dropout_rate = payload['dropout_rate']
+    learning_rate = payload['learning_rate']
+    context_len = payload['context_len']
+    error = None
+
+    if not name:
+        error = "Model Name is required"
+    elif db.execute(
+        'SELECT id FROM model_info where name = ?', [name]
+    ).fetchone() is not None:
+        error = "Model name already exists."
+
+    if error is not None:
+        return make_response(error, 400)
+
+    db.execute(
+        'INSERT INTO model_info (name, word_dimension, batch_size, character_dimension, dropout_rate, learning_rate, context_len) '
+        'VALUES(?, ?, ?, ?, ?, ?, ?);',
+        [name, word_dimension, batch_size,character_dimension, dropout_rate, learning_rate, context_len]
+    )
+
+    db.commit()
+    return make_response(jsonify({'message': 'success' }), 200)
+
+
