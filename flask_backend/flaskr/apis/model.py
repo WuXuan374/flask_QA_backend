@@ -32,7 +32,7 @@ def model_evaluation():
     results = db.execute(
         "SELECT * FROM model_evaluation WHERE name LIKE :search",{"search": model_name + "%"}
     ).fetchall()
-    if results is None:
+    if results is None or len(results) == 0:
         return make_response(jsonify({'error': 'Model evaluation record Not found'}), 404)
 
     return json.dumps(marshal(results, evaluation_fields))
